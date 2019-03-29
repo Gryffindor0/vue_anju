@@ -8,65 +8,80 @@ import CompanyList from '@/components/Company/CompanyList'
 import StrategyDetail from '@/components/Strategy/StrategyDetail'
 import DiaryDetail from '@/components/Diary/DiaryDetail'
 import CompanyDetail from '@/components/Company/CompanyDetail'
+import DesignerDetail from '@/components/Designer/DesignerDetail'
+import WriteDiary from '@/components/Diary/WriteDiary'
+
 import Login from '@/components/Nav/Login'
 import Register from '@/components/Nav/Register'
 
 Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Index',
-      component: Index
-    },
-    {
-      path: '/StrategyList',
-      name: 'StrategyList',
-      component: StrategyList,
-      children: [
+    routes: [
         {
-          path: 'StrategyListItem',
-          name: 'StrategyListItem',
-          component: StrategyListItem
+            path: '/',
+            name: 'Index',
+            component: Index
         },
         {
-          path: 'DiaryListItem',
-          name: 'DiaryListItem',
-          component: DiaryListItem
+            path: '/StrategyList',
+            name: 'StrategyList',
+            component: StrategyList,
+            children: [
+                {
+                    path: 'StrategyListItem',
+                    name: 'StrategyListItem',
+                    component: StrategyListItem
+                },
+                {
+                    path: 'DiaryListItem',
+                    name: 'DiaryListItem',
+                    component: DiaryListItem
+                }
+            ]
+        },
+        {
+            path: '/CompanyList',
+            name: 'CompanyList',
+            component: CompanyList
+        },
+        {
+            path: '/StrategyDetail',
+            name: 'StrategyDetail',
+            component: StrategyDetail
+        },
+        {
+            path: '/DiaryDetail',
+            name: 'DiaryDetail',
+            component: DiaryDetail
+        },
+        {
+            path: '/CompanyDetail',
+            name: 'CompanyDetail',
+            component: CompanyDetail
+        },
+        {
+            path: '/DesignerDetail',
+            name: 'DesignerDetail',
+            component: DesignerDetail
+        },
+
+        {
+            path: '/WriteDiary',
+            name: 'WriteDiary',
+            component: WriteDiary
+        },
+
+        {
+            path: '/Login',
+            name: 'Login',
+            component: Login
         }
-      ]
-    },
-    {
-      path: '/CompanyList',
-      name: 'CompanyList',
-      component: CompanyList
-    },
-    {
-      path: '/StrategyDetail',
-      name: 'StrategyDetail',
-      component: StrategyDetail
-    },
-    {
-      path: '/DiaryDetail',
-      name: 'DiaryDetail',
-      component: DiaryDetail
-    },
-    {
-      path: '/CompanyDetail',
-      name: 'CompanyDetail',
-      component: CompanyDetail
-    },
-    {
-      path: '/Login',
-      name: 'Login',
-      component: Login
-    }
-    ,
-    {
-      path: '/Register',
-      name: 'Register',
-      component: Register
-    }
-  ]
+        ,
+        {
+            path: '/Register',
+            name: 'Register',
+            component: Register
+        }
+    ]
 })
