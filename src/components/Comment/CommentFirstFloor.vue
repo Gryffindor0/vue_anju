@@ -1,7 +1,7 @@
 <template>
   <div class="first_floor" onselectstart="return false;">
     <div class="user_icon" :id="item.fromu_id">
-      <img :src="item.fromu__userIcon__icon" alt="">
+      <img :src="item.user_icon" alt="">
     </div>
     <div class="comment_main">
       <div class="nickname">

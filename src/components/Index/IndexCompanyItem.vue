@@ -37,7 +37,7 @@
     mounted: function () {
       axios.get(this.Global.server_url + "company/indexCompanyList/")
         .then((response) => {
-            if (response.data.status_code == 10009) {
+            if (response.data.status_code == "10009") {
               this.items = response.data.content;
             }else {
               console.log(response)

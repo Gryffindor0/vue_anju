@@ -7,6 +7,7 @@
           <h3 id="strategy_title" v-text="strategy_info.strategy_title"></h3>
           <div class="date_collect">
             <span id="public_date" v-text="strategy_info.publish_date"></span>
+            <!--收藏组件-->
             <collect :content_id="id" :collectType_id="collectType_id"></collect>
           </div>
           <span id="author" v-text="'作者:'+strategy_info.author"></span>

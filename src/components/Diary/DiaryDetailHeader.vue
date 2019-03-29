@@ -40,7 +40,8 @@
 
           <div class="collect_num">
             <span v-text="diary_info.collect_num"></span>
-            <collect></collect>
+            <!--收藏组件-->
+            <collect :content_id="id" :collectType_id="collectType_id"></collect>
           </div>
 
           <div class="comment_num">
@@ -73,7 +74,9 @@
     },
     data:function () {
       return{
-        diary_info:{}
+        diary_info:{},
+        id:this.$route.query && this.$route.query.diary_id,
+        collectType_id:1
       }
     },
     mounted:function () {

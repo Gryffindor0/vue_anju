@@ -36,7 +36,7 @@
                  v-for="(item,index) in user_icons"
                  :key="index"
                  @click="getDiaryData(item.id)">
-              <img :src="item.user__userIcon__icon" alt="">
+              <img :src="item.user_icon" alt="">
             </div>
           </div>
           <div class="more_diary">

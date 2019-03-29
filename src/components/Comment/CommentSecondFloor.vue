@@ -1,7 +1,7 @@
 <template>
     <div class="second_floor" style="display: flex;">
       <div class="user_icon" :id="reply_item.fromu_id">
-        <img :src="reply_item.fromu__userIcon__icon" alt="">
+        <img :src="reply_item.user_icon" alt="">
       </div>
       <div class="comment_main">
         <div class="nickname">

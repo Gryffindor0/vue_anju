@@ -39,7 +39,7 @@
             if (response && response.data.status_code=="10030"){
               this.collect_id=response.data.collect_id;
               this.isCollect = !this.isCollect;
-            }else if (response && response.data.status_code === "10006") {
+            }else if (response && response.data.status_code == "10006") {
               this.$router.push({path: "/Login"})
             }else{
               console.log(response)
@@ -58,7 +58,7 @@
           }).then(response => {
             if (response && response.data.status_code=="10040") {
               this.isCollect = !this.isCollect;
-            }else if (response && response.data.status_code === "10006") {
+            }else if (response && response.data.status_code == "10006") {
               this.$router.push({path: "/Login"})
             }else{
               console.log(response);
@@ -72,7 +72,37 @@
         //   this.$router.push({path:"/Login" })
         // }
       }
+    },
+    mounted:function () {
+      // if (this.Global.token){
+        axios.post(this.Global.server_url + "collect/checkCollection/", {
+          "content_id": this.content_id,
+          "collectType_id": this.collectType_id,
+          // "user_id": this.Global.user_id
+          "user_id":1
+        }, {
+          headers: {
+            "token": this.Global.token
+          }
+        }).then(response => {
+          if (response && response.data.status_code=="10009"){
+            this.collect_id=response.data.content[0].id;
+            this.isCollect = true;
+          }else if (response && response.data.status_code == "10006") {
+            this.$router.push({path: "/Login"})
+          }else if(response && response.data.status_code=="10008"){
+            this.isCollect = false;
+          }else{
+            console.log(response)
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+      // }else{
+      //   this.isCollect = false;
+      // }
     }
+
   }
 </script>
 
