@@ -12,7 +12,7 @@
                     免费预约<span class="company_name"><!--公司名--></span>装修服务
                 </p>
 
-                <div class="virtual_login">
+                <div class="virtual_login" v-if="!needLogin">
                     <!--<div class="virtual_login" v-if="token">-->
 
                     <router-link to="/Login" class="">点击前往登录--></router-link>
@@ -20,29 +20,31 @@
                 </div>
 
 
-                <div class="virtual_info">
+                <div class="virtual_info" v-if="!noHouse">
                     <!--<div class="virtual_info" v-if="noHouse">-->
 
                     <router-link to="/Personal" class="">点击到个人中心填写房屋信息...</router-link>
                     <!--<router-link :to="{ path:'/Personal/二级房屋', query:{user_id:1}}" class="">点击到个人中心填写房屋信息...</router-link>-->
                 </div>
 
-                <div class="select-house">
+                <div class="select-house" v-if="!houseInfo">
                     <!--<div class="select-house" v-if="hasHouse">-->
 
-                    <select name="" id="house_select" class="house_block">
+                    <select name="" id="house_select" class="house_block" v-model="house_id">
 
                         <option value="0">
                             选择房屋信息...
                         </option>
 
-                        <option value="十元">
-                            十元
+                        <option :value="item.id" v-for="(item,index) in houseInfo"
+                                :key="index" v-text="item.name">
                         </option>
 
                     </select>
 
-                    <button class="submit_btn">
+                    <h6>{{house_id}}</h6>
+
+                    <button class="submit_btn" @click="appoint">
                         立即预约
                     </button>
 
@@ -65,36 +67,122 @@
 
         data: function () {
             return {
-                // isLogin:false,
-                // noHouse:false,
+                needLogin: false,
+                noHouse: false,
+
                 // houseInfo:false,
+                houseInfo: [],
+
+                house_id:"0",
+
             }
         },
 
-        methods: {},
+        methods: {
+
+            appoint: function () {
+                axios.post(this.Global.server_url + "user/addAppointment/", {
+                    // 房屋id
+                    // house_id:this.house_id,
+                    // 测试id
+                    house_id:1,
+                    // 公司id
+                    // company_id:this.$route.query.company_id,
+                    // 测试id
+                    company_id:1,
+                    // 用户id
+                    // user_id:this.Global.user_id,
+                    // 测试id
+                    user_id: 1,
+
+                }).then((response) => {
+                    console.log(response);
+                    if (response && response.data.status_code=== "10020") {
+                        // 预约成功
+                        alert(response.data.status_text);
+                        // 模态框消失
+                        // modal.style.display = "block";
+                        this.$router.push({path: '/personalCenter/myOrder'})
+
+                    } else if(response && response.data.status_code=== "10022") {
+                        // 已经预约
+                        alert(response.data.status_text);
+                    }
+                    else {
+                        // 预约失败
+                        alert(response.data.status_text);
+                    }
+
+                }).catch((error) => {
+                    console.log(error);
+                });
+
+            }
+        },
 
         mounted: function () {
 
-            // if (this.Golobal.token) {
-            // //     登录过
-            //     axios.get( this.Global.server_url + "user/houseList/",{
-            //         params:{
-            //             // user_id=this.user_id;
-            //             // house_id="";
-            //             // token=this.token;
-            //         }
-            //     }).then((response)=> {
-            //         // this.case_info = response.data.content;
-            //
-            //     }).catch((error)=> {
-            //         console.log(error);
-            //     });
-            // } else {
-            //     // 没有登录
-            //     this.isLogin=true;
-            //     this.noHouse=false;
-            //     this.houseInfo=false;
-            // }
+            if (this.Global.token) {
+                // 登录过
+                axios.get(this.Global.server_url + "user/getHouseList/", {
+                    // token
+                    headers: {
+                        token: this.Global.token,
+                    },
+                    params: {
+                        // user_id:this.Global.user_id,
+                        // 测试id
+                        user_id: 1,
+
+                        house_id: "",
+                        // token: this.token
+                    }
+                }).then((response) => {
+                    // 测试
+                    // console.log(response);
+
+                    if (response && response.data.status_code === "10006") {
+                        // 登录过期
+
+                        // 需要登录
+                        this.needLogin = true;
+                        // 没有房屋
+                        this.noHouse = false;
+
+
+                    } else if (response && response.data.status_code === "10009") {
+                        // 找到房屋信息,渲染
+
+                        // 需要登录
+                        this.needLogin = false;
+                        // 没有房屋
+                        this.noHouse = false;
+
+                        // 有房屋信息
+                        this.houseInfo = response.data.content;
+
+                    }
+                    else {
+                        // 没有房屋信息
+
+                        // 需要登录
+                        this.needLogin = false;
+                        // 没有房屋
+                        this.noHouse = true;
+                        this.$router.push({path: '/personalCenter/'})
+
+                    }
+
+                }).catch((error) => {
+                    console.log(error);
+                });
+            } else {
+                // 没有登录过
+                // 需要登录
+                this.needLogin = true;
+                // 没有房屋
+                this.noHouse = false;
+            }
 
         }
     }

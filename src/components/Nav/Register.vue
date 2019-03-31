@@ -99,6 +99,9 @@
         name: "Register",
         data: function () {
             return {
+                // refer_page
+                from:null,
+
                 // 手机号
                 txt_telephone: '18255256391',
                 tel_error: '',
@@ -115,8 +118,6 @@
                 // 同意协议
                 check_error: '',
                 check: '',
-
-                from: null,
 
             }
         },
@@ -218,12 +219,13 @@
                         telephone: this.txt_telephone,
                         nickname: this.txt_name,
                         password: this.txt_password,
-                        token: null
+                        // token: null
 
                     }).then((response) => {
+                        // console.log(response)
 
                         if (response && response.data.status_code === '10001') {
-
+                            // 注册成功
                             localStorage.setItem('token', response.data.token);
                             localStorage.setItem('user_id', response.data.user_id);
                             localStorage.setItem('nickname', response.data.nickname);
@@ -235,20 +237,18 @@
                                 this.$router.push({path: '/'})
                             }
 
-
                         } else if (response && response.data.status_code === '10002') {
+                            // 用户已存在
                             this.tel_error = response.data.status_text;
 
                         } else {
                             console.log(response.data.status_text);
                         }
 
-                        // console.log(response)
-
 
                     }).catch((error) => {
                         console.log(error);
-                    })
+                    });
 
                 } else {
                     console.log("信息有误！！！")

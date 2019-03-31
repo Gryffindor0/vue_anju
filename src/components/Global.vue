@@ -5,7 +5,9 @@
 <script>
 
   // const server_url = 'http://47.102.45.80:8080/api/';
+  // const server_url = 'http://127.0.0.1:8081/api/';
   const server_url = 'http://127.0.0.1:8000/';
+
   export default {
     name: "Global",
     server_url: server_url,

@@ -126,11 +126,11 @@
 
         mounted: function () {
 
-            axios.get(this.Global.server_url + "company/companyDetail/", {
+            axios.get(this.Global.server_url + "case/getCompanyCase/", {
                 params: {
-                    // company_id:this.company_id;
+                    company_id:this.company_id,
                     // 测试id
-                    company_id: 1
+                    // company_id: 1
                 }
             }).then((response) => {
                 console.log('案例列表');

@@ -20,7 +20,6 @@
                                            @change="checkTel">
                                 </div>
                                 <div class="ant-form-explain" v-text="tel_error"></div>
-
                             </div>
                         </div>
 
@@ -98,6 +97,9 @@
         name: "Login",
         data: function () {
             return {
+                // refer_page
+                from:null,
+
                 // 电话文本框
                 txt_telephone: '18255256391',
                 tel_error: '',
@@ -108,6 +110,14 @@
                 password_error: '',
             }
         },
+
+        watch: {
+            '$route': function (from) {
+                this.from = from;
+            }
+        },
+
+
         methods: {
             // 显示密码
             show_pwd: function () {
@@ -166,12 +176,39 @@
                 if (this.checkTel() && this.checkPassword()) {
 
                     axios.post(this.Global.server_url + 'user/login/', {
+
                         telephone: this.txt_telephone,
                         password: this.txt_password,
-                        token: null
+                        // token: null
                     }).then((response) => {
-                        console.log(response)
+                        // console.log(response);
+                        if(response && response.data.status_code==='10003'){
+
+                            // 登录成功
+                            localStorage.setItem('token', response.data.token);
+                            localStorage.setItem('user_id', response.data.user_id);
+                            localStorage.setItem('nickname', response.data.nickname);
+
+                            if (this.from) {
+                                this.$router.go(-1);
+                            } else {
+                                // 直接进入登录页,跳转到首页
+                                this.$router.push({path: '/'})
+                            }
+
+                        }else if(response && response.data.status_code==='10004'){
+                            // 用户不存在
+                            this.tel_error=response.data.status_text;
+
+                        }else if(res && response.data.status_code==='10005') {
+                            // 密码错误
+                            this.password_error=response.data.status_text;
+                        }else {
+                            console.log(response.data.status_text)
+                        }
+
                     }).catch((error) => {
+                        // 请求出错
                         console.log(error);
                     })
 

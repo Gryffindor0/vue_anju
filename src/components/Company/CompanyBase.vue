@@ -169,9 +169,17 @@
                     company_id: 1
                 }
             }).then((response) => {
-                console.log('公司信息');
-                this.item = response.data.content[0];
-                console.log(this.item)
+                // console.log('公司信息');
+                if (response && response.data.status_code === "10009") {
+                    this.item = response.data.content;
+                } else {
+                    console.log(response);
+                }
+
+                // flask
+                // this.item = response.data.content[0];
+                // console.log(this.item)
+
             }).catch((error) => {
                 console.log(error);
             });
@@ -190,7 +198,6 @@
                 };
             }
             // 认证信息浮现-end
-
 
         }
 
@@ -213,6 +220,7 @@
     /*margin: 0;*/
     /*padding: 0;*/
     /*}*/
+
     a {
         font-family: "Microsoft YaHei", 微软雅黑, 黑体, 宋体, "Microsoft JhengHei", 华文细黑, STHeiti, MingLiu;
         cursor: pointer;
