@@ -46,9 +46,9 @@
             return {
 
                 // 正确id
-                // company_id:this.$route.query.company_id,
+                company_id:this.$route.query.company_id,
                 // 测试用公司id
-                company_id: 1,
+                // company_id: 1,
 
                 case_info: [
 

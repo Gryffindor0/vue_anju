@@ -19,11 +19,11 @@
           </div>
           <div class="collection_content diary_contents">
             <div class="user_info">
-              <img :src="di.diary_src" alt="">
+              <img :src="di.icon" alt="">
               <span v-text="di.nickname"></span>
             </div>
             <div class="content_info">
-              <span v-text="di.diary_title"></span>
+              <router-link :to="{path:'/DiaryDetail',query:{diary_id:di.diary_id}}" v-text="di.diary_title"></router-link>
               <div class="style">
                 <span v-text="di.style_name"></span>
                 <span>|</span>
@@ -54,15 +54,7 @@
         name: "CollectDiary",
         data:function () {
           return{
-            diaryInfo:[
-              {"diary_src":'',"nickname":"遇事不决问春风","diary_title":'日记1',"style_name":'欧式',"company":"公司1",
-                "diary_content":"贺卡贺卡上看见看见当机立断贺卡上看见看见当机立断贺卡上看见看见当机立断贺卡上看见看见当机立断贺卡上看见看见当机立断贺卡上看见看见当机立断贺卡上看见看见当机立断上看见看见当机立断",
-                "diary_img":[''],"collect_date":"3-23","check":false,"checkNum":1},
-              {"diary_src":"","nickname":"遇事不决问春风","diary_title":'日记2',"style_name":'欧式',"company":"公司1",
-                "diary_content":"贺卡上看见看见当机立断","diary_img":[''],"collect_date":"3-23","check":false,"checkNum":1},
-              {"diary_src":"","nickname":"遇事不决问春风","diary_title":'日记3',"style_name":'欧式',"company":"公司1",
-                "diary_content":"贺卡上看见看见当机立断","diary_img":[''],"collect_date":"3-23","check":false,"checkNum":1},
-            ],
+            diaryInfo:[],
             checkAllNum:1,   //未选中时为1,选中为0
             checkAll:false, //判定全选
             showDiary:true, //显示收藏案例
@@ -71,12 +63,12 @@
         mounted:function () {
           axios.get(this.Global.server_url+'collect/diaryCollections/',{
             // params:{"user_id":this.Global.user_id}
-            params:{"user_id":this.Global.user_id}
+            params:{"user_id":window.localStorage.getItem("user_id")}
           })
             .then(res=>{
               if(res.data.status_code==='10009'){
                 // console.log(res.data.content);
-                this.caseInfo=res.data.content;
+                this.diaryInfo=res.data.content;
               }
             })
             .catch(err => {
@@ -140,12 +132,12 @@
               if(this.diaryInfo[i].check){
                 this.diaryInfo.splice(i,1);
                 var del=[];
-                del.push(this.caseInfo[i].id)
+                del.push(this.caseInfo[i].collect_id)
               }
             }
             axios.get(this.Global.server_url+'collect/cancelCollection/',{
               // params:{"user_id":this.Global.user_id}
-              params:{"user_id":this.Global.user_id}
+              params:{"user_id":window.localStorage.getItem("user_id")}
             })
               .then(res=>{
                 if(res.data.status_code==='10040'){

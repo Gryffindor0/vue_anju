@@ -51,41 +51,47 @@
 
       //插入回复数据
       postReplyData: function (id,comment_id, tou_id, name) {
-        // if (this.token) {
-        if (this.reply_text) {
-          axios.post(this.Global.server_url + "comment/addReply/", {
-            "fromu_id": 1,
-            "comment_id": comment_id,
-            "reply_id": id,
-            "replyType_id": 2,
-            "reply_content": this.reply_text,
-            "tou_id": tou_id,
-            "tou_nickname": name
-          }).then(response => {
-              if (response && response.data.status_code == 10010) {
-                for (let i = 0; i < response.data.content.length; i++) {
-                  response.data.content[i]["isShowReply"] = false
+        if (window.localStorage.getItem("token")) {
+          if (this.reply_text) {
+            axios.post(this.Global.server_url + "comment/addReply/", {
+                "fromu_id": 1,
+                "comment_id": comment_id,
+                "reply_id": id,
+                "replyType_id": 2,
+                "reply_content": this.reply_text,
+                "tou_id": tou_id,
+                "tou_nickname": name
+              },
+              {
+                headers: {
+                  token: window.localStorage.getItem("token")
                 }
-                this.$emit('changeNum',response.data.comment_num[0].comment_num);
-                this.$emit('changeReplyInfo',response.data.content),
-                this.reply_text="";
-                this.reply_item.isShowReply = !this.reply_item.isShowReply
-              } else if (response && response.data.status_code === "10006") {
-                this.$router.push({path: "/Login"})
-              } else {
-                console.log(response)
+              }).then(response => {
+                if (response && response.data.status_code == 10010) {
+                  for (let i = 0; i < response.data.content.length; i++) {
+                    response.data.content[i]["isShowReply"] = false
+                  }
+                  this.$emit('changeNum', response.data.comment_num[0].comment_num);
+                  this.$emit('changeReplyInfo', response.data.content),
+                    this.reply_text = "";
+                  this.reply_item.isShowReply = !this.reply_item.isShowReply
+                } else if (response && response.data.status_code === "10006") {
+                  this.$router.push({path: "/Login"})
+                } else {
+                  console.log(response)
+                }
               }
-            }
-          )
-            .catch(error => {
-              console.log(error)
-            });
-        } else {
-          alert("回复内容不能为空！")
+            )
+              .catch(error => {
+                console.log(error)
+              });
+          } else {
+            alert("回复内容不能为空！")
+          }
         }
-
-        // else {
-        //   this.$router.push({path: "/Login"})
+        else {
+          this.$router.push({path: "/Login"})
+      }
 
       }
     },

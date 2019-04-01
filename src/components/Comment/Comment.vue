@@ -68,47 +68,51 @@
       },
       //插入评论数据
       postCommentData: function () {
-        // if (this.Global.token) {
-        if (this.comment_text) {
-          var commentType_id;
-          // 判断父组件是攻略页面还是日记页面
-          if (this.type === "strategy_id") {
-            commentType_id = 1
-          } else if (this.type === "diary_id") {
-            commentType_id = 2
-          }
-          axios.post(this.Global.server_url + "comment/addComment/", {
-            "fromu_id": 1,
-            "comment_content": this.comment_text,
-            "commentType_id": commentType_id,
-            "comment_obj_id": this.$route.query.strategy_id
-          }).then(response => {
-              if (response && response.data.status_code == 10010) {
-                for (let i = 0; i < response.data.content.length; i++) {
-                  response.data.content[i]["isShowReply"] = false
-                }
-                this.comment_info=response.data.content;
-                this.comment_text = ''
-              } else if (response && response.data.status_code === "10006") {
-                // 登录过期跳转到登录页面
-                this.$router.push({path: "/Login"})
-              } else {
-                console.log(response)
-              }
+        if (window.localStorage.getItem("token")) {
+          if (this.comment_text) {
+            var commentType_id;
+            // 判断父组件是攻略页面还是日记页面
+            if (this.type === "strategy_id") {
+              commentType_id = 1
+            } else if (this.type === "diary_id") {
+              commentType_id = 2
             }
-          )
-            .catch(error => {
-              console.log(error)
-            });
-        } else {
-          alert("评论内容不能为空！")
+            axios.post(this.Global.server_url + "comment/addComment/", {
+              "fromu_id": window.localStorage.getItem("user_id"),
+              "comment_content": this.comment_text,
+              "commentType_id": commentType_id,
+              "comment_obj_id": this.$route.query.strategy_id
+            },
+              {
+                headers:{
+                  token:window.localStorage.getItem("token")
+                }
+              }).then(response => {
+                if (response && response.data.status_code == "10010") {
+                  for (let i = 0; i < response.data.content.length; i++) {
+                    response.data.content[i]["isShowReply"] = false
+                  }
+                  this.comment_info = response.data.content;
+                  this.comment_text = ''
+                } else if (response && response.data.status_code === "10006") {
+                  // 登录过期跳转到登录页面
+                  this.$router.push({path: "/Login"})
+                } else {
+                  console.log(response)
+                }
+              }
+            ).catch(error => {
+                console.log(error)
+              });
+          } else {
+            alert("评论内容不能为空！")
+          }
         }
-
-        // else {
-        // //没有登录跳转到登录页面
-        //   this.$router.push({path: "/Login"})
-
+        else {
+        //没有登录跳转到登录页面
+          this.$router.push({path: "/Login"})
       }
+        }
     }
     ,
     mounted: function () {

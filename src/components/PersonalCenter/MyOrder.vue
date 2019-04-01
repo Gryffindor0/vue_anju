@@ -53,7 +53,7 @@
           </div>
         </td>
         <td class="td03">
-          <span>正在预约</span>
+          <span v-text="o.appointment_status"></span>
         </td>
         <td class="td04">
           <button type="button" class="cancel" @click="cancelOrder(index)">取消预约</button>
@@ -75,27 +75,26 @@
         data:function () {
           return{
             showOrder:false,  //显示预约信息
-            orderInfo:[{"com_src":"","com_name":"mk","case_num":122,"work_site_num":155,"telephone":"232313233","house_type":"小居室",
-              "house_area":"99","house_address":"吴中区","house_village":"若诗集(づ￣3￣)づ╭❤～"},
-              {"com_src":"","com_name":"mk","case_num":123,"work_site_num":155,"telephone":"232313233","house_type":"小居室",
-                "house_area":"99","house_address":"吴中区","house_village":"若诗集(づ￣3￣)づ╭❤～"},
-              {"com_src":"","com_name":"mk","case_num":124,"work_site_num":155,"telephone":"232313233","house_type":"小居室",
-                "house_area":"99","house_address":"吴中区","house_village":"若诗集(づ￣3￣)づ╭❤～"},
-              {"com_src":"","com_name":"mk","case_num":125,"work_site_num":155,"telephone":"232313233","house_type":"小居室",
-                "house_area":"99","house_address":"吴中区","house_village":"若诗集(づ￣3￣)づ╭❤～"}]
+            orderInfo:[]
           }
         },
         mounted:function () {
           //获取预约信息
             axios.get(this.Global.server_url+'user/getAppointment/',{
               // params:{"user_id":this.Global.user_id}
-              params:{"user_id":this.Global.user_id}
+              params:{"user_id":window.localStorage.getItem("user_id")}
             })
               .then(res=>{
                 if(res.data.status_code==='10009'){
                   // console.log(res.data.content);
                   this.orderInfo=res.data.content;
-
+                  console.log(111);
+                  console.log(this.orderInfo);
+                  if(this.orderInfo==[]){
+                    this.showOrder=true
+                  }else {
+                    this.showOrder=false
+                  }
                 }
               })
               .catch(err => {

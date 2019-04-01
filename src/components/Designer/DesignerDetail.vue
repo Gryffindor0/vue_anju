@@ -7,10 +7,10 @@
                 <!--<a href="../index.html" >苏州装修</a> >-->
                 <router-link to="/CompanyList" class="">苏州装修公司</router-link> >
                 <!--<a href="company_list.html" >苏州装修公司</a> >-->
-                <router-link to="/CompanyList" class="">{公司名}}</router-link> >
+                <router-link to="/CompanyList" class=""></router-link> >
                 <!--<a href="#" class="com_name">&lt;!&ndash;公司名&ndash;&gt;{{公司名}}</a> >-->
                 <a href="#">设计团队</a> >
-                <span class="des_name"><!--申莹莹-->{{申莹莹}}</span>
+                <span class="des_name"><!--申莹莹--></span>
             </div>
         </div>
         <div class="row author">

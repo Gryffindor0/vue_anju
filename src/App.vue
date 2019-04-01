@@ -2,9 +2,9 @@
   <div id="app">
     <!--导航开始-->
     <header>
-      <index-nav v-show="isIndex"></index-nav>
-      <nav-main v-show="notIsIndex"></nav-main>
-      <div class="div01" v-show="notIsIndex"></div>
+      <index-nav v-if="isIndex"></index-nav>
+      <nav-main v-if="notIsIndex"></nav-main>
+      <div class="div01" v-if="notIsIndex"></div>
     </header>
     <!--导航结束-->
 

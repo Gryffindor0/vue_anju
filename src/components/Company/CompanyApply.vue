@@ -12,7 +12,7 @@
                     免费预约<span class="company_name"><!--公司名--></span>装修服务
                 </p>
 
-                <div class="virtual_login" v-if="!needLogin">
+                <div class="virtual_login" v-if="needLogin">
                     <!--<div class="virtual_login" v-if="token">-->
 
                     <router-link to="/Login" class="">点击前往登录--></router-link>
@@ -20,14 +20,14 @@
                 </div>
 
 
-                <div class="virtual_info" v-if="!noHouse">
+                <div class="virtual_info" v-if="noHouse">
                     <!--<div class="virtual_info" v-if="noHouse">-->
 
-                    <router-link to="/Personal" class="">点击到个人中心填写房屋信息...</router-link>
+                    <router-link to="/PersonalCenter/" class="">点击到个人中心填写房屋信息...</router-link>
                     <!--<router-link :to="{ path:'/Personal/二级房屋', query:{user_id:1}}" class="">点击到个人中心填写房屋信息...</router-link>-->
                 </div>
 
-                <div class="select-house" v-if="!houseInfo">
+                <div class="select-house" v-if="houseInfo">
                     <!--<div class="select-house" v-if="hasHouse">-->
 
                     <select name="" id="house_select" class="house_block" v-model="house_id">
@@ -42,7 +42,7 @@
 
                     </select>
 
-                    <h6>{{house_id}}</h6>
+                    <!--<h6>{{house_id}}</h6>-->
 
                     <button class="submit_btn" @click="appoint">
                         立即预约
@@ -71,7 +71,7 @@
                 noHouse: false,
 
                 // houseInfo:false,
-                houseInfo: [],
+                houseInfo: null,
 
                 house_id:"0",
 
@@ -83,17 +83,17 @@
             appoint: function () {
                 axios.post(this.Global.server_url + "user/addAppointment/", {
                     // 房屋id
-                    // house_id:this.house_id,
+                    house_id:this.house_id,
                     // 测试id
-                    house_id:1,
+                    // house_id:1,
                     // 公司id
-                    // company_id:this.$route.query.company_id,
+                    company_id:this.$route.query.company_id,
                     // 测试id
-                    company_id:1,
+                    // company_id:1,
                     // 用户id
-                    // user_id:this.Global.user_id,
+                    user_id:this.Global.user_id,
                     // 测试id
-                    user_id: 1,
+                    // user_id: 1,
 
                 }).then((response) => {
                     console.log(response);
@@ -122,17 +122,17 @@
 
         mounted: function () {
 
-            if (this.Global.token) {
+            if (window.localStorage.getItem("token")) {
                 // 登录过
                 axios.get(this.Global.server_url + "user/getHouseList/", {
                     // token
                     headers: {
-                        token: this.Global.token,
+                        token: window.localStorage.getItem("token"),
                     },
                     params: {
-                        // user_id:this.Global.user_id,
+                        user_id:window.localStorage.getItem("user_id"),
                         // 测试id
-                        user_id: 1,
+                        // user_id: 1,
 
                         house_id: "",
                         // token: this.token
@@ -169,7 +169,7 @@
                         this.needLogin = false;
                         // 没有房屋
                         this.noHouse = true;
-                        this.$router.push({path: '/personalCenter/'})
+                        // this.$router.push({path: '/personalCenter/'})
 
                     }
 

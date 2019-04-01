@@ -29,37 +29,55 @@
           }
         },
         mounted:function () {
-          //获取公司数量
-          axios.get(this.Global.server_url+'company/companyNum/')
-            .then(res=>{
-              if(res.data.status_code==='10009'){
-                // console.log(res.data.content);
-                for(let n=1;n<=Math.ceil(res.data.content/5);n++){
-                  this.comPageNum.push(n)
-                }
-              }
-            })
-            .catch(err => {
-              console.log(err)
-            });
-          //获取第一页公司数据
-          axios.get(this.Global.server_url+'company/companyList/')
-            .then(res=>{
-              if(res.data.status_code==='10009'){
-                // console.log(res.data.content);
-                this.companyInfo=res.data.content
-              }
-            })
-            .catch(err => {
-              console.log(err)
-            })
+          this.getComList()
         },
         watch:{
           comPageNum:function () {
             this.isActive=-1
-          }
+          },
+          '$route':'getComList'
         },
         methods:{
+          getComList:function(){
+            if (this.$route.query.search_condition === "装修公司") {
+              axios.get(this.Global.server_url+"search/searchCompany/",{
+                params:{
+                  "search_content":this.$route.query.search_content
+                }
+              })
+                .then(response=>{
+                  this.companyInfo=response.data.content
+                })
+                .catch(error=>{
+                  console.log(error);
+                })
+            }else{
+              //获取公司数量
+              axios.get(this.Global.server_url+'company/companyNum/')
+                .then(res=>{
+                  if(res.data.status_code==='10009'){
+                    // console.log(res.data.content);
+                    for(let n=1;n<=Math.ceil(res.data.content/5);n++){
+                      this.comPageNum.push(n)
+                    }
+                  }
+                })
+                .catch(err => {
+                  console.log(err)
+                });
+              //获取第一页公司数据
+              axios.get(this.Global.server_url+'company/companyList/')
+                .then(res=>{
+                  if(res.data.status_code==='10009'){
+                    // console.log(res.data.content);
+                    this.companyInfo=res.data.content
+                  }
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
+          },
           getScreenComNum:function(val){
             this.comPageNum=val;
             // console.log('--------------')
@@ -73,7 +91,7 @@
             this.companyCondition=val
           },
           getSortCompany:function(val){
-            this.companyCondition=val
+            this.companyInfo=val
           },
           getSortComNum:function(val){
             this.comPageNum=val

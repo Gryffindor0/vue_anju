@@ -16,7 +16,7 @@
           </div>
           <div class="col-md-11 col-sm-11 col-xs-11 company_list">
             <div class="text-top">
-              <router-link to="companyDetail"><h3 v-text="com.name"></h3></router-link>
+              <router-link :to="{path:'/companyDetail',query:{company_id:com.id}}"><h3 v-text="com.name"></h3></router-link>
               <div class="row">
                 <div class="col-md-9 col-sm-9 col-xs-9 case">
                   <span v-text="'设计案例 :'+com.case_num"></span>
@@ -31,16 +31,16 @@
             <div class="img">
               <div class="row">
                 <div class="col-md-3 col-sm-4 col-xs-4 first_img">
-                  <router-link :to="{path:'/companyDetail/',query:{company_id:com.id}}"><img :src="com.com_src"/></router-link>
+                  <router-link :to="{path:'/companyDetail',query:{company_id:com.id}}"><img :src="com.com_src"/></router-link>
                 </div>
                 <div class="col-md-3 col-sm-4 col-xs-4 second_img">
-                  <router-link :to="{path:'/companyDetail/',query:{company_id:com.id}}"><img :src="com.com_src"/></router-link>
+                  <router-link :to="{path:'/companyDetail',query:{company_id:com.id}}"><img :src="com.com_src"/></router-link>
                 </div>
                 <div class="col-md-3 col-sm-4 col-xs-4 third_img">
-                  <router-link :to="{path:'/companyDetail/',query:{company_id:com.id}}"><img :src="com.com_src"/></router-link>
+                  <router-link :to="{path:'/companyDetail',query:{company_id:com.id}}"><img :src="com.com_src"/></router-link>
                 </div>
                 <div class="col-md-3 col-sm-4 col-xs-6 fourth_img">
-                  <router-link :to="{path:'/companyDetail/',query:{company_id:com.id}}"><img :src="com.com_src"/></router-link>
+                  <router-link :to="{path:'/companyDetail',query:{company_id:com.id}}"><img :src="com.com_src"/></router-link>
                 </div>
               </div>
             </div>

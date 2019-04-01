@@ -22,7 +22,7 @@
     methods: {
       collect: function () {
         // 判断是否有token
-        // if (this.Global.token){
+        if (window.localStorage.getItem("token")){
         if (!this.isCollect) {
 
           // 增加收藏
@@ -30,10 +30,10 @@
             "content_id": this.content_id,
             "collectType_id": this.collectType_id,
             // "user_id": this.Global.user_id
-            "user_id":1
+            "user_id":window.localStorage.getItem("user_id")
           }, {
             headers: {
-              "token": this.Global.token
+              "token": window.localStorage.getItem("token")
             }
           }).then(response => {
             if (response && response.data.status_code=="10030"){
@@ -53,7 +53,7 @@
             "collect_id": this.collect_id
           }, {
             headers: {
-              "token": this.Global.token
+              "token": window.localStorage.getItem("token")
             }
           }).then(response => {
             if (response && response.data.status_code=="10040") {
@@ -67,22 +67,21 @@
             console.log(error)
           })
         }
-        // }else{
-        // //跳转到登录页面
-        //   this.$router.push({path:"/Login" })
-        // }
+        }else{
+        //跳转到登录页面
+          this.$router.push({path:"/Login" })
+        }
       }
     },
     mounted:function () {
-      // if (this.Global.token){
+      if (window.localStorage.getItem("token")){
         axios.post(this.Global.server_url + "collect/checkCollection/", {
           "content_id": this.content_id,
           "collectType_id": this.collectType_id,
-          // "user_id": this.Global.user_id
-          "user_id":1
+          "user_id": window.localStorage.getItem("user_id")
         }, {
           headers: {
-            "token": this.Global.token
+            "token": window.localStorage.getItem("token")
           }
         }).then(response => {
           if (response && response.data.status_code=="10009"){
@@ -98,9 +97,9 @@
         }).catch(error => {
           console.log(error)
         })
-      // }else{
-      //   this.isCollect = false;
-      // }
+      } else {
+        this.isCollect = false;
+      }
     }
 
   }

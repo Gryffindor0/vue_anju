@@ -3,7 +3,7 @@
     <div class="row case module-cont" >
       <div class="card-bx col-md-3 col-sm-3 col-xs-6" v-for="di in designerInfo">
         <div class="content">
-          <router-link :to="{path:'/designerDetail/',query:{id:di.id}}">
+          <router-link :to="{path:'/DesignerDetail',query:{designer_id:di.id}}">
             <div class="img-ct">
               <img :src="di.des_icon"/></div>
             <div class="card-info">
@@ -53,7 +53,7 @@
   .module-cont .card-bx {
     padding: 10px ;
     margin-top: 25px;
-    height: 240px;
+    /*height: 340px;*/
   }
   .content{
     border: solid 1px #d5d5d5;

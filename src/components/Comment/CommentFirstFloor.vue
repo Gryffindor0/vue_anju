@@ -89,16 +89,21 @@
 
       //插入一层回复数据
       postReplyData: function (id, to_uid, name) {
-        // if (this.token) {
-        if (this.reply_content) {
-          axios.post(this.Global.server_url + "comment/addReply/", {
-            "fromu_id": 1,
-            "comment_id": id,
-            "replyType_id": 1,
-            "reply_content": this.reply_content,
-            "tou_id": to_uid,
-            "tou_nickname": name
-          }).then(response => {
+        if (window.localStorage.getItem("token")) {
+          if (this.reply_content) {
+            axios.post(this.Global.server_url + "comment/addReply/", {
+              "fromu_id": 1,
+              "comment_id": id,
+              "replyType_id": 1,
+              "reply_content": this.reply_content,
+              "tou_id": to_uid,
+              "tou_nickname": name
+            },
+              {
+                headers:{
+                  token:window.localStorage.getItem("token")
+                }
+              }).then(response => {
               if (response && response.data.status_code == 10010) {
 
                 this.item.comment_num = response.data.comment_num[0].comment_num;
@@ -115,16 +120,16 @@
               } else {
                 console.log(response)
               }
-            }
-          )
-            .catch(error => {
-              console.log(error)
-            });
-        } else {
-          alert("回复内容不能为空！")
+            })
+              .catch(error => {
+                console.log(error)
+              });
+          } else {
+            alert("回复内容不能为空！")
+          }
+        }else {
+          this.$router.push({path: "/Login"})
         }
-        // else {
-        //   this.$router.push({path: "/Login"})
 
       },
 

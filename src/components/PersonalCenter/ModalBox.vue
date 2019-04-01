@@ -138,7 +138,7 @@
                 axios.post(this.Global.server_url + 'user/addDiary/', {
 
                     diary_title: this.diaryTitle,
-                    user_id: this.Global.user_id,
+                    user_id: window.localStorage.getItem("user_id"),
                     area: this.houseArea,
                     style_id: style_select.value,
                     renovation_type_id: reno_type.value,

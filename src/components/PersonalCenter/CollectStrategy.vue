@@ -22,7 +22,7 @@
               <img :src="si.strategy_src" alt="">
             </div>
             <div class="content_info">
-              <span v-text="si.strategy_title"></span>
+              <router-link :to="{path:'/StrategyDetail',query:{strategy_id:si.strategy_id}}" v-text="si.strategy_title"></router-link>
               <p v-text="si.lead"></p>
               <div class="collection_time">
                 <span v-text="si.collect_date"></span>
@@ -45,14 +45,7 @@
         name: "CollectStrategy",
         data:function () {
           return{
-            strategyInfo:[
-              {"strategy_src":"","strategy_title":"攻略1","case_num":'1222',"lead":'也是的撒的客户贷款计划到静安寺金卡戴珊不擦科技市场部',
-                "collect_date":"3-23","check":false,"checkNum":1},
-              {"strategy_src":"","strategy_title":"攻略2","case_num":'1222',"lead":'也是的撒的客户贷款计划到静安寺金卡戴珊不擦科技市场部',
-                "collect_date":"3-23","check":false,"checkNum":1},
-              {"strategy_src":"","strategy_title":"攻略3","case_num":'1222',"lead":'也是的撒的客户贷款计划到静安寺金卡戴珊不擦科技市场部',
-                "collect_date":"3-23","check":false,"checkNum":1},
-            ],
+            strategyInfo:[],
             checkAllNum:1,   //未选中时为1,选中为0
             checkAll:false, //判定全选
             showStrategy:true, //显示收藏攻略
@@ -62,12 +55,12 @@
         mounted:function () {
           axios.get(this.Global.server_url+'collect/strategyCollections/',{
             // params:{"user_id":this.Global.user_id}
-            params:{"user_id":this.Global.user_id}
+            params:{"user_id":window.localStorage.getItem("user_id")}
           })
             .then(res=>{
               if(res.data.status_code==='10009'){
                 // console.log(res.data.content);
-                this.caseInfo=res.data.content;
+                this.strategyInfo=res.data.content;
               }
             })
             .catch(err => {
@@ -131,12 +124,12 @@
                   if(this.strategyInfo[i].check){
                     this.strategyInfo.splice(i,1);
                     var del=[];
-                    del.push(this.caseInfo[i].id)
+                    del.push(this.caseInfo[i].collect_id)
                   }
                 }
                 axios.get(this.Global.server_url+'collect/cancelCollection/',{
                   // params:{"user_id":this.Global.user_id}
-                  params:{"user_id":this.Global.user_id}
+                  params:{"user_id":window.localStorage.getItem("user_id")}
                 })
                   .then(res=>{
                     if(res.data.status_code==='10040'){

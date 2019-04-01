@@ -6,7 +6,7 @@
         <div class="liu" v-if="!isShow" @mouseenter="enter" @mouseleave="leave">
           <div class="row">
             <div class="col-xs-4 col-sm-4 col-md-4 shen ">
-              <img src="../../assets/shenyy.jpg" height="100" width="100" class="designer_img"/>
+              <img :src="topInfo[0].designer_icon" height="100" width="100" class="designer_img"/>
             </div>
             <div class="col-xs-8 col-sm-8 col-md-8">
               <div class="row text_right" >
@@ -14,7 +14,7 @@
                   <h4 class="designer_name" v-text="topInfo[0].designer_name"></h4>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6">
-                  <img :src="topInfo[0].designer_icon" height="18" width="56"/>
+                  <img src="../../assets/designer.png" height="18" width="56"/>
                 </div>
               </div>
               <div class="row text_info" >
@@ -27,16 +27,16 @@
               </div>
               <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 text_btn">
-                  <router-link :to="{path:'/designerDetail/',query:{designer_id:topInfo.designer_id}}" class="btn btn-default" :id="topInfo.designer_id">去TA主页</router-link>
+                  <router-link :to="{path:'/DesignerDetail',query:{designer_id:topInfo.id}}" class="btn btn-default" :id="topInfo.designer_id">去TA主页</router-link>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-12 author">
-          <img :src="topInfo[0].company_icon" height="54" width="54" id="first" @mouseenter="enter" @mouseleave="leave"/>
+          <img :src="topInfo[0].designer_icon" height="54" width="54" id="first" @mouseenter="enter" @mouseleave="leave"/>
           <span class="designer_name" v-text="topInfo[0].designer_name"></span>
-          <img :src="topInfo[0].designer_icon" height="18" width="56"/>
+          <img src="../../assets/designer.png" height="18" width="56"/>
         </div>
       </div>
       <div class="row" >

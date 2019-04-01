@@ -76,7 +76,7 @@
             District:'沧浪区',      //用户选择地区
             village: '',            //用户填写街区
             QQ:'________________',          //用户填写QQ
-            user_nickname:'遇事不决问春风',  //用户昵称
+            user_nickname:'',  //用户昵称
             sex:'男',                          //用户性别
             changeBef:true,                   //显示修改页面还是显示信息页面
             progress_bar:'50%',               //进度条
@@ -84,6 +84,7 @@
             progress_bar_css:' progress_bar', //进度条样式
             address:'________________',           //用户显示的详细地址
             userInfo:[],
+            imgURL:'',
           }
         },
         mounted:function () {
@@ -144,7 +145,7 @@
               this.QQ='________________';
             }
             let user_info={};
-            user_info.id=this.Global.user_id;
+            user_info.id=window.localStorage.getItem("user_id");
             user_info.nickname=this.user_nickname;
             user_info.sex=this.sex;
             this.address==='________________'? user_info.address='':user_info.address=this.address;
@@ -153,9 +154,7 @@
             axios.post(this.Global.server_url+'user/changeUserInfo/',user_info)
               .then(res=>{
                 if(res.data.status_code==='10014'){
-                  // console.log(res.data.content);
                   this.getUserInfo()
-
                 }
               })
               .catch(err => {
@@ -217,10 +216,11 @@
                       if (res){
                         axios.post(self.Global.server_url+"user/unloadImg/",{
                           "icon":domain+'/'+res.key+'?imageView2/1/w/200/h/200/q/100',
-                          "user_id":6
+                          "user_id":window.localStorage.getItem("user_id")
                         })
                           .then(response=>{
-                            if (response && response.data.status_code === 10012) {
+                            if (response && response.data.status_code === "10012") {
+                              console.log(res.key);
                               self.imgURL=domain+'/'+res.key
                             }
                           })
@@ -240,12 +240,13 @@
           getUserInfo:function () {
             axios.get(this.Global.server_url+'user/getUserInfo/',{
               // params:{"user_id":this.Global.user_id}
-              params:{"user_id":this.Global.user_id}
+              params:{"user_id":window.localStorage.getItem("user_id")}
             })
               .then(res=>{
                 if(res.data.status_code==='10009'){
                   // console.log(res.data.content);
                   this.userInfo=res.data.content;
+                  this.user_nickname=this.userInfo[0].nickname;
                   this.getProgress()
                 }
               })

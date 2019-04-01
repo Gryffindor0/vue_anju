@@ -4,7 +4,7 @@
     <div class="row center_right_top">
       <div class="col-xs-5 img_info">
         <div class="img">
-          <router-link to="/personalCenter/personalData" class="image"><img :src="userInfo[0].icon" class="user_Icon"/></router-link>
+          <router-link to="/personalCenter/personalData" class="image"><img :src="userInfo[0]['icon']" class="user_Icon"/></router-link>
           <router-link to="/personalCenter/personalData" class="text">修改资料</router-link>
         </div>
         <div class="info">
@@ -45,7 +45,7 @@
           <table class="table table_info dis" v-show="!h_i.flag">
             <tr>
               <td>房屋信息:</td>
-              <td><span v-text="h_i.name"></span> 丨 <span>{{h_i.area}}m²</span> | <span v-text="h_i.type"></span></td>
+              <td><span v-text="h_i.name"></span> 丨 <span>{{h_i.area}}m²</span> | <span v-text="h_i.houseType__name"></span></td>
               <td><span class="editor" @click="editor(index)">编辑</span></td>​
             </tr>
             <tr>
@@ -195,10 +195,11 @@
       }
     },
     mounted:function () {
+      console.log(window.localStorage.getItem("user_id"));
       // 获取用户数据
       axios.get(this.Global.server_url+'user/getUserInfo/',{
         // params:{"user_id":this.Global.user_id}
-        params:{"user_id":"1"}
+        params:{"user_id":window.localStorage.getItem("user_id")}
       })
         .then(res=>{
           if(res.data.status_code==='10009'){
@@ -224,7 +225,7 @@
         house_info.address=this.H_D;
         house_info.village=this.village;
         house_info.flag=false;
-        house_info.user_id="1";
+        house_info.user_id=window.localStorage.getItem("user_id");
         this.house_infos.push(house_info);
         this.$data.showHouseList=false;
         this.house_name='';
@@ -257,7 +258,7 @@
         house_info.address=this.H_D_U;
         house_info.village=this.village_u;
         house_info.flag=!this.house_infos[val].flag;
-        house_info.user_id=this.Global.user_id;
+        house_info.user_id=window.localStorage.getItem("user_id");
 
         // 保存房屋信息
         axios.post(this.Global.server_url+'user/updateHouseInfo/',house_info)
@@ -277,6 +278,7 @@
       },
     // 编辑房屋信息
       editor:function (val) {
+        console.log(this.house_infos[val])
         this.house_infos[val].flag=true;
       },
       // 删除房屋信息
@@ -309,7 +311,7 @@
       },
       getHouseList:function () {
         axios.get(this.Global.server_url+'user/getHouseList/',{
-          params:{"user_id":this.Global.user_id}
+          params:{"user_id":window.localStorage.getItem("user_id")}
           // params:{"user_id":"1"}
         })
           .then(res=>{

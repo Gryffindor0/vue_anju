@@ -108,6 +108,7 @@
   #barcon{
     text-align: center;
     padding: 15px;
+
   }
   .active{
     background: #0CB469;

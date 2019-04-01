@@ -18,8 +18,8 @@
           </div>
           <div class="content_text">
             <span v-for="(item,index) in items.content_text"
-               :key="index"
-               @click="toDetail(items.title,item.id)">{{item}}</span>
+                  :key="index"
+                  @click="toDetail(items.title,item.id)">{{item.til}}</span>
           </div>
         </div>
       </div>
@@ -29,93 +29,106 @@
 
 <script>
   import axios from 'axios'
+
   export default {
     name: "IndexStrategy",
     data: function () {
       return {
         title_list: [
-          {"title": "苏州装修攻略",
+          {
+            "title": "苏州装修攻略",
             "my_css": "strategy_content_img",
             "icon": require("../../assets/strategy.svg"),
             "content_text": []
           },
-          {"title": "苏州装修日记",
+          {
+            "title": "苏州装修日记",
             "my_css": "diary_content_img",
             "icon": require("../../assets/diary.svg"),
             "content_text": []
           },
-          {"title": "苏州装修问答",
+          {
+            "title": "苏州装修问答",
             "my_css": "wd_img",
             "icon": require("../../assets/interlocution.svg"),
             "content_text": [
-              "164平四室两厅两卫装修设计简约风方案",
-              "三室两厅两卫5万装修的3个注意事项",
-              "装修中式客厅的技巧到底有哪一些",
-              "50平方装修该怎么样更省钱 有什么攻略",
-              "卫生间地砖往上渗水怎么办 下面三点千万不能忽略",
-              "厨房改造预算多少钱 材料怎么选购"
+              {"til": "164平四室两厅两卫装修设计简约风方案"},
+              {"til": "三室两厅两卫5万装修的3个注意事项"},
+              {"til": "装修中式客厅的技巧到底有哪一些"},
+              {"til": "50平方装修该怎么样更省钱 有什么攻略"},
+              {"til": "卫生间地砖往上渗水怎么办 下面三点千万不能忽略"},
+              {"til": "厨房改造预算多少钱 材料怎么选购"}
             ]
           },
-          {"title": "装修工具",
+          {
+            "title": "装修工具",
             "my_css": "gj_img",
             "icon": require("../../assets/tools.svg"),
-            "content_text": [
-              "164平四室两厅两卫装修设计简约风方案",
-              "三室两厅两卫5万装修的3个注意事项",
-              "装修中式客厅的技巧到底有哪一些",
-              "50平方装修该怎么样更省钱 有什么攻略",
-              "卫生间地砖往上渗水怎么办 下面三点千万不能忽略",
-              "厨房改造预算多少钱 材料怎么选购"
+            "content_text":  [
+              {"til": "164平四室两厅两卫装修设计简约风方案"},
+              {"til": "三室两厅两卫5万装修的3个注意事项"},
+              {"til": "装修中式客厅的技巧到底有哪一些"},
+              {"til": "50平方装修该怎么样更省钱 有什么攻略"},
+              {"til": "卫生间地砖往上渗水怎么办 下面三点千万不能忽略"},
+              {"til": "厨房改造预算多少钱 材料怎么选购"}
             ]
           }
         ]
       }
     },
-    methods:{
-      toDetail:function (type,id) {
-        if (type=="苏州装修攻略") {
-          this.$router.push({path:"/StrategyDetail",query:{strategy_id:id}})
-        }else if(type=="苏州装修日记"){
-          this.$router.push({path:"/DiaryDetail",query:{diary_id:id}})
+    methods: {
+      toDetail: function (type, id) {
+        console.log(id);
+        console.log(this.title_list);
+        if (type == "苏州装修攻略") {
+          this.$router.push({path: "/StrategyDetail", query: {strategy_id: id}})
+        } else if (type == "苏州装修日记") {
+          this.$router.push({path: "/DiaryDetail", query: {diary_id: id}})
         }
       }
     },
-    mounted:function () {
-      axios.get(this.Global.server_url+"strategy/strategyTitle/")
+    mounted: function () {
+      axios.get(this.Global.server_url + "strategy/strategyTitle/")
         .then((response) => {
             if (response.data.status_code == 10009) {
               for (var t of response.data.content) {
-                if (t.strategy_title.length > 13){
+                let s={};
+                if (t.strategy_title.length > 13) {
                   t.strategy_title = t.strategy_title.substring(0, 13) + "..."
                 }
-                this.title_list[0].content_text.push(t.strategy_title);
+                s["id"]=t.id;
+                s["til"]=t.strategy_title;
+                this.title_list[0].content_text.push(s);
               }
             }
           }
         )
-        .catch(error=>{
+        .catch(error => {
           console.log(error);
         });
-      axios.get(this.Global.server_url+"diary/diaryTitle/")
+      axios.get(this.Global.server_url + "diary/diaryTitle/")
         .then((response) => {
             if (response.data.status_code == 10009) {
               for (var t of response.data.content) {
-                if (t.diary_title.length > 13){
+                let s={};
+                if (t.diary_title.length > 13) {
                   t.diary_title = t.diary_title.substring(0, 13) + "..."
                 }
-                this.title_list[1].content_text.push(t.diary_title);
+                s["id"]=t.id;
+                s["til"]=t.diary_title;
+                this.title_list[1].content_text.push(s);
               }
 
             }
           }
         )
-        .catch(error=>{
+        .catch(error => {
           console.log(error);
         });
       //字数限制{
-      var content_text=document.querySelectorAll(".content_text span");
+      var content_text = document.querySelectorAll(".content_text span");
       for (var a of content_text) {
-        if (a.innerText.length > 13){
+        if (a.innerText.length > 13) {
           a.innerText = a.innerText.substring(0, 13) + "..."
         }
       }
@@ -200,7 +213,7 @@
 
   .strategy_content .content_text span:hover {
     cursor: pointer;
-    color: #3e8f3e;
+    color: #ec3901;
     text-decoration: none;
   }
 

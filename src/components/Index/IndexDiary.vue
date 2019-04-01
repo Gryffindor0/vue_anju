@@ -9,7 +9,7 @@
             </div>
             <div class="diary_name">
               <div class="diary_title">
-                <span v-text="diary_info.diary_title"></span>
+                <router-link :to="{path:'/DiaryDetail',query:{diary_id:diary_info.diary_id}}" v-text="diary_info.diary_title"></router-link>
               </div>
               <div>
                 <span class="style" v-text="diary_info.style_name"></span>

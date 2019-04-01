@@ -2,18 +2,18 @@
 
     <!--案例模块--begin-->
     <div class="card-bx col-xs-4 col-sm-4 col-md-4 " :id="item.case_id">
-        <router-link :to="{ path:'/CaseDetail', query:{case_id:item.case_id}}" class="">
+        <router-link :to="{ path:'/caseDetail/', query:{case_id:item.id}}" class="">
 
             <div class="img-ct">
-                <img :src="item.case_img" alt="案例图片">
+                <img :src="item.case_src" alt="案例图片">
 
             </div>
             <div class="card-info">
                 <p class="card-name ect">{{item.case_name}}</p>
-                <p class="card-detail">{{item.area}}m² / {{item.type}} / {{item.sty}} / {{item.reno}}</p>
+                <p class="card-detail">{{item.area}}m² / {{item.house_type}} / {{item.house_style}} / {{item.reno_type}}</p>
                 <p class="card-cost ect">
                                                     <span>
-                                                        {{item.price}}
+                                                        {{item.cost}}
                                                     </span>
                     万
                 </p>
@@ -37,7 +37,8 @@
         methods: {},
 
         mounted: function () {
-
+          // console.log(123);
+          console.log(this.item);
         }
 
     }

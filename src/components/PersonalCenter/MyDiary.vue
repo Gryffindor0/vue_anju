@@ -121,7 +121,7 @@
                 params: {
                     // user_id:this.Global.user_id,
                     // 测试id
-                    user_id: 1,
+                    user_id: window.localStorage.getItem("user_id"),
 
                 }
             }).then((response) => {

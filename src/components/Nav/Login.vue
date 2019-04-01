@@ -101,12 +101,12 @@
                 from:null,
 
                 // 电话文本框
-                txt_telephone: '18255256391',
+                txt_telephone: '',
                 tel_error: '',
 
                 // 密码文本框--type
                 pwd_type: 'password',
-                txt_password: '123456',
+                txt_password: '',
                 password_error: '',
             }
         },
@@ -188,19 +188,19 @@
                             localStorage.setItem('token', response.data.token);
                             localStorage.setItem('user_id', response.data.user_id);
                             localStorage.setItem('nickname', response.data.nickname);
-
-                            if (this.from) {
-                                this.$router.go(-1);
-                            } else {
-                                // 直接进入登录页,跳转到首页
-                                this.$router.push({path: '/'})
-                            }
+                            this.$router.go(-1);
+                            // if (this.from) {
+                            //     this.$router.go(-1);
+                            // } else {
+                            //     // 直接进入登录页,跳转到首页
+                            //     this.$router.push({path: '/'})
+                            // }
 
                         }else if(response && response.data.status_code==='10004'){
                             // 用户不存在
                             this.tel_error=response.data.status_text;
 
-                        }else if(res && response.data.status_code==='10005') {
+                        }else if(response && response.data.status_code==='10005') {
                             // 密码错误
                             this.password_error=response.data.status_text;
                         }else {

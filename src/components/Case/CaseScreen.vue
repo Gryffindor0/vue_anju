@@ -141,8 +141,9 @@
 
 <style scoped>
   .tab{
-    width: 100%;
+    width: 90%;
     margin-left: -1% ;
+    margin: auto;
   }
   .table{
     background: white;

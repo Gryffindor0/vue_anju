@@ -19,10 +19,10 @@
           </div>
           <div class="collection_content company_content">
             <div class="company_icon">
-              <img :src="ci.company_src" alt="">
+              <img :src="ci.company_icon" alt="">
             </div>
             <div class="content_info">
-              <span class="company_name" v-text="ci.company_name"></span>
+              <router-link :to="{path:'/companyDetail/',query:{company_id:ci.content_id}}" class="company_name" v-text="ci.name"></router-link>
               <div>
                 <span>设计案例 :</span>
                 <span class="case_num"  v-text="ci.case_num"></span>
@@ -52,14 +52,7 @@
         name: "CollectCompany",
         data:function () {
           return{
-            companyInfo:[
-              {"company_src":"","company_name":"公司1","case_num":'1222',"work_site_num":'1222',
-                "contact_tel":"23333333333","collect_date":"3-23","check":false,"checkNum":1},
-              {"company_src":"","company_name":"公司2","case_num":'1222',"work_site_num":'1222',
-                "contact_tel":"23333333333","collect_date":"3-23","check":false,"checkNum":1},
-              {"company_src":"","company_name":"公司3","case_num":'1222',"work_site_num":'1222',
-                "contact_tel":"23333333333","collect_date":"3-23","check":false,"checkNum":1},
-            ],
+            companyInfo:[],
             checkAllNum:1,    //未选中状态时为1,选中状态为0
             checkAll:false, //判定全选
             showCompany:true, //显示收藏公司
@@ -68,12 +61,13 @@
         mounted:function () {
           axios.get(this.Global.server_url+'collect/companyCollections/',{
             // params:{"user_id":this.Global.user_id}
-            params:{"user_id":this.Global.user_id}
+            params:{"user_id":window.localStorage.getItem("user_id")}
           })
             .then(res=>{
               if(res.data.status_code==='10009'){
+
                 // console.log(res.data.content);
-                this.caseInfo=res.data.content;
+                this.companyInfo=res.data.content;
               }
             })
             .catch(err => {
@@ -142,7 +136,7 @@
             }
             axios.get(this.Global.server_url+'collect/cancelCollection/',{
               // params:{"user_id":this.Global.user_id}
-              params:{"user_id":this.Global.user_id}
+              params:{"user_id":window.localStorage.getItem("user_id")}
             })
               .then(res=>{
                 if(res.data.status_code==='10040'){

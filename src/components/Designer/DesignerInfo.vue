@@ -5,7 +5,7 @@
             <div class="col-md-11 author_left">
 
                 <div class="row author_info">
-                    <img src="../../../static/image/designer02.jpg" class="icon" alt="设计师头像"/>
+                    <img :src="item.des_icon" class="icon" alt="设计师头像"/>
                 </div>
                 <div class="row author_info">
                     <h4 class="des_name" v-text="item.des_name">
@@ -65,7 +65,7 @@
 
         mounted: function () {
 
-            axios.get(this.Global.server_url + "designer/designerDetail/", {
+            axios.get(this.Global.server_url + "designer/getDesignerInfo/", {
                 params: {
                     designer_id: this.$route.query.designer_id
                     // 测试id

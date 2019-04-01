@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="des">
     <designer :designerInfo="designerInfo"></designer>
     <div id="barcon">
       <span class='btn btn-default page_1' @click="go_page(index)" v-for="(p,index) in pageNum" v-text="p" :class="{'active':index===isActive}"></span>
@@ -54,7 +54,7 @@
               if(res.data.status_code==='10009'){
                 console.log(res.data.content);
                 for(let c of res.data.content){
-                  c.design_concept=c.design_concept.slice(0,30)+'...'
+                  c.design_concept=c.design_concept.slice(0,35)+'...'
                 }
                 this.designerInfo=res.data.content
               }
@@ -98,6 +98,10 @@
 </script>
 
 <style scoped>
+  .des{
+    width: 90%;
+    margin: auto;
+  }
   #barcon{
     text-align: center;
     padding: 15px;

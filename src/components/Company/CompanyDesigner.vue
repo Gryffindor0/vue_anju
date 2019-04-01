@@ -46,9 +46,9 @@
         data: function () {
             return {
                 // 正确id
-                // company_id:this.$route.query.company_id,
+                company_id:this.$route.query.company_id,
                 // 测试用公司id
-                company_id: 1,
+                // company_id: 1,
 
                 designer_info: [
                     // {
@@ -82,7 +82,7 @@
         methods: {},
 
         mounted: function () {
-            axios.get(this.Global.server_url + "designer/designerList/", {
+            axios.get(this.Global.server_url + "designer/designerComList/", {
                 params: {
                     company_id:this.company_id,
                     // 测试id

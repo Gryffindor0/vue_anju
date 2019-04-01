@@ -22,7 +22,7 @@
             <img :src="ci.case_src" alt="">
           </div>
           <div class="content_info">
-            <span v-text="ci.case_name"></span>
+            <router-link :to="{path:'/caseDetail/',query:{case_id:ci.case_id}}" v-text="ci.case_name"></router-link>
             <span v-text="ci.case_area"></span>
             <span>/</span>
             <span v-text="ci.house_type"></span>
@@ -56,16 +56,7 @@
         data:function () {
           return{
             //案例数据
-            caseInfo:[
-              {"case_src":"","case_name":"钱女士的雅居1","case_area":122,"house_type":'三居',"style_name":"欧式","renovation_type":"全包",
-                "price":"99","collect_date":"3-23","check":false,"checkNum":1},
-              {"case_src":"","case_name":"钱女士的雅居2","case_area":122,"house_type":'三居',"style_name":"欧式","renovation_type":"全包",
-                "price":"99","collect_date":"2-23","check":false,"checkNum":1},
-              {"case_src":"","case_name":"钱女士的雅居3","case_area":122,"house_type":'三居',"style_name":"欧式","renovation_type":"全包",
-                "price":"99","collect_date":"3-13","check":false,"checkNum":1},
-              {"case_src":"","case_name":"钱女士的雅居4","case_area":122,"house_type":'三居',"style_name":"欧式","renovation_type":"全包",
-                "price":"99","collect_date":"3-13","check":false,"checkNum":1},
-            ],
+            caseInfo:[],
             checkAllNum:1,  //未选中时为1,选中为0
             checkAll:false, //判定全选
             showCase:true, //显示收藏案例
@@ -74,7 +65,7 @@
         mounted:function () {
           axios.get(this.Global.server_url+'collect/caseCollections/',{
             // params:{"user_id":this.Global.user_id}
-            params:{"user_id":this.Global.user_id}
+            params:{"user_id":window.localStorage.getItem("user_id")}
           })
             .then(res=>{
               if(res.data.status_code==='10009'){
@@ -143,12 +134,12 @@
               if(this.caseInfo[i].check){
                 this.caseInfo.splice(i,1);
                 var del=[];
-                del.push(this.caseInfo[i].id)
+                del.push(this.caseInfo[i].collect_id)
               }
             }
             axios.get(this.Global.server_url+'collect/cancelCollection/',{
               // params:{"user_id":this.Global.user_id}
-              params:{"user_id":this.Global.user_id}
+              params:{"user_id":window.localStorage.getItem("user_id")}
             })
               .then(res=>{
                 if(res.data.status_code==='10040'){

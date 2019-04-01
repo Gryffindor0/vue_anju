@@ -103,16 +103,16 @@
                 from:null,
 
                 // 手机号
-                txt_telephone: '18255256391',
+                txt_telephone: '',
                 tel_error: '',
 
                 // 用户名
-                txt_name: '123',
+                txt_name: '',
                 name_error: '',
 
                 // 密码
                 pwd_type: 'password',
-                txt_password: '123456',
+                txt_password: '',
                 password_error: '',
 
                 // 同意协议

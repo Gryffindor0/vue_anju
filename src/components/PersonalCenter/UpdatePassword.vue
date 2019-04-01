@@ -137,7 +137,7 @@
                 let password={};
                 password.old_pwd=this.oldPassword;
                 password.new_pwd=this.newPassword;
-                password.id=this.Global.user_id;
+                password.id=window.localStorage.getItem("user_id");
                 console.log(password);
                 axios.post(this.Global.server_url+'user/updatePassword/',password)
                   .then(res=>{

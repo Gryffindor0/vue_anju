@@ -14,7 +14,9 @@
         <!--</table>-->
         <!--<div id="barcon" name="barcon">-->
         <!--</div>-->
-        <go-page></go-page>
+        <div id="barcon">
+          <span class='btn btn-default page_1' @click="go_page(index)" v-for="(p,index) in pageNum" v-text="p" :class="{'active':index===isActive}"></span>
+        </div>
 
     </div>
 </template>
@@ -23,7 +25,7 @@
 
 
     import CaseItem from '../Company/CaseItem'
-    import GoPage from './GoPage'
+    // import GoPage from './GoPage'
 
     import axios from 'axios'
 
@@ -31,7 +33,7 @@
         name: "DesignerCase",
         components: {
             'case-item': CaseItem,
-            'go-page': GoPage
+            // 'go-page': GoPage
         },
 
         data: function () {
@@ -106,27 +108,95 @@
                     // },
 
                 ],
+                isActive:-1,
+                con:{"pageNum":0,"perPageNum":12,"designer_id":this.$route.query.designer_id},
+                pageNum:[],
+
             }
         },
 
-        methods: {},
+        watch:{
+          pageNum:function () {
+            this.isActive=-1
+          }
+        },
 
         mounted: function () {
-            axios.get(this.Global.server_url + "designer/designerDetail/", {
-                params: {
-                    // 正确id
-                    designer_id: this.$route.query.designer_id
-                    // 测试id
-                    // designer_id:1
-                }
+            // axios.get(this.Global.server_url + "designer/designerDetail/", {
+            //     params: {
+            //         // 正确id
+            //         designer_id: this.$route.query.designer_id
+            //         // 测试id
+            //         // designer_id:1
+            //     }
+            // }).then((response) => {
+            //     console.log('设计师信息');
+            //     this.case_info = response.data.content;
+            //     console.log(this.case_info);
+            //
+            // }).catch((error) => {
+            //     console.log(error);
+            // });
+            //获取该设计师的案例数
+            axios.get(this.Global.server_url + "designer/designerDetailListNum/", {
+              params: {
+                // 正确id
+                designer_id: this.$route.query.designer_id
+                // 测试id
+                // designer_id:1
+              }
             }).then((response) => {
-                console.log('设计师信息');
-                this.case_info = response.data.content;
-                console.log(this.case_info);
+              console.log('设计师信息');
+              // this.case_info = response.data.content;
+              console.log(this.case_info);
+              for(let n=1;n<=Math.ceil(response.data.content/12);n++){
+                this.pageNum.push(n)
+              }
+              console.log(this.pageNum)
 
             }).catch((error) => {
-                console.log(error);
+              console.log(error);
             });
+
+
+            axios.get(this.Global.server_url+'designer/designerDetailList/',{
+              params:this.con
+            })
+              .then(res=>{
+                if(res.data.status_code==='10009'){
+                  console.log("设计");
+                  console.log(res.data.content);
+                  this.case_info=res.data.content
+                }else if(res.data.status_code==='10008') {
+                  this.case_info=res.data.content
+                }
+              })
+              .catch(err => {
+                console.log(err)
+              });
+        },
+        methods:{
+          go_page:function (val) {
+            this.isActive=val;
+            // this.con.designer_id=this.designer_id;
+            this.con.pageNum=val;
+            let con=this.con;
+            console.log(con);
+            axios.get(this.Global.server_url+'designer/designerDetailList/',{
+              params:con
+            })
+              .then(res=>{
+                if(res.data.status_code==='10009'){
+                  console.log(res.data.content);
+                  this.case_info=res.data.content
+                }else if(res.data.status_code==='10008') {
+                  this.case_info=res.data.content
+                }
+              })
+              .catch(err => {
+                console.log(err)
+              });
+          }
         }
 
     }
@@ -292,41 +362,43 @@
     /*-----------案例列表结束-------------*/
 
     /*------------分页开始--------------*/
-    #barcon {
-        margin-left: 33%;
-        margin-bottom: 20px;
+    #barcon{
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
     }
-
+    .active{
+      background: #0CB469;
+      color: white;
+    }
+    #barcon .page_1{
+      margin: 5px;
+    }
     @media (max-width: 993px) {
-        #barcon {
-            margin-left: 25%;
-        }
+      #barcon{
+        margin-left: 25%;
+      }
     }
-
     @media (max-width: 768px) {
-        #barcon {
-            margin-left: 20%;
-        }
+      #barcon{
+        margin-left: 20%;
+      }
     }
-
     @media (max-width: 610px) {
-        #barcon {
-            margin-left: 8%;
-        }
-
-        .page_1 {
-            width: 15%;
-        }
+      #barcon{
+        margin-left: 8%;
+      }
+      .page_1{
+        width: 15%;
+      }
     }
-
     @media (max-width: 437px) {
-        #barcon {
-            margin-left: 8%;
-        }
-
-        .page_1 {
-            width: 10%;
-        }
+      #barcon{
+        margin-left: 8%;
+      }
+      .page_1{
+        width: 10%;
+      }
     }
 
     /*------------分页结束--------------*/

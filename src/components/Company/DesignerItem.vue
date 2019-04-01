@@ -3,19 +3,19 @@
     <!--设计师模块--begin-->
     <div class="portrait-bx col-sm-6 col-md-3" :id="item.des_id">
 
-        <router-link :to="{ path:'/DesignerDetail', query:{designer_id:item.des_id}}" class="">
+        <router-link :to="{ path:'/DesignerDetail', query:{designer_id:item.designerinfo__id}}" class="">
             <div class="img-ct">
-                <img class="img--lazy" :src="item.des_icon"
+                <img class="img--lazy" :src="item.designerinfo__icon"
                      data-original="" alt="设计师头像" style="display: inline;">
             </div>
 
             <div class="portrait-info">
                 <p class="portrait-name">
-                    {{item.des}}
+                    {{item.designerinfo__name}}
                 </p>
 
                 <p class="portrait-detail">
-                    {{item.case_number}}套案例
+                    {{item.designerinfo__case_num}}套案例
                 </p>
             </div>
         </router-link>

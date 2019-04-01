@@ -44,8 +44,10 @@
 
 <style scoped>
   #idData {
+    width: 90%;
     background: white;
     min-height: 360px;
+    margin: auto;
   }
   .module-cont .card-bx {
     padding: 9px 10px;

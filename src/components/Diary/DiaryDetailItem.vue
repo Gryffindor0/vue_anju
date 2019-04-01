@@ -10,7 +10,7 @@
           <p v-text="item.diary_content"></p>
         </div>
         <div class="diary_image">
-          <img :src="img" alt="" v-for="img in item.diary_img">
+          <img :src="img.diary_img" alt="" v-for="img in item.diary_imgs">
         </div>
       </div>
     </div>

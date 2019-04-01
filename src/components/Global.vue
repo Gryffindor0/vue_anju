@@ -11,10 +11,12 @@
   export default {
     name: "Global",
     server_url: server_url,
-    // 用户token
-    token:window.localStorage && window.localStorage.getItem('token'),
-    // 用户id
-    user_id:window.localStorage && window.localStorage.getItem('user_id')
+    // // 用户token
+    // token:window.localStorage && window.localStorage.getItem('token'),
+    // // 用户id
+    // user_id:window.localStorage && window.localStorage.getItem('user_id'),
+    // //用户名
+    // nickname:window.localStorage && window.localStorage.getItem('nickname')
   }
 </script>
 
