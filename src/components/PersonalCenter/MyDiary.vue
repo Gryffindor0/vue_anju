@@ -94,12 +94,7 @@
         data: function () {
             return {
                 // showDiary: true,
-                diaryInfo: [
-                    {
-                        "id": "1", "diary_title": "日记一", "publish_date": "3.20", "area": "210", "style": "欧式",
-                        "reno_type": "全包", "village": "宏达矿", "company": "安居客", "count": "2"
-                    }
-                ],
+                diaryInfo: [],
 
                 showModal: false,
             }
@@ -117,7 +112,7 @@
 
         mounted: function () {
 
-            axios.get(this.Global.server_url + "user/getUserDiary/", {
+            axios.get(this.Global.server_url + "diary/getUserDiary/", {
                 params: {
                     // user_id:this.Global.user_id,
                     // 测试id
@@ -126,10 +121,10 @@
                 }
             }).then((response) => {
                 // 测试
-                // console.log(response);
+                console.log(response);
 
                 if (response && response.data.status_code=== "10009") {
-                    diaryInfo=response.data.content;
+                    this.diaryInfo=response.data.content;
                 }
 
             }).catch((error) => {

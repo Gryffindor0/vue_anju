@@ -22,8 +22,8 @@
             <img :src="ci.case_src" alt="">
           </div>
           <div class="content_info">
-            <router-link :to="{path:'/caseDetail/',query:{case_id:ci.case_id}}" v-text="ci.case_name"></router-link>
-            <span v-text="ci.case_area"></span>
+            <h4><router-link :to="{path:'/caseDetail/',query:{case_id:ci.case_id}}" v-text="ci.case_name"></router-link></h4>
+            <span v-text="ci.case_area+'m²'"></span>
             <span>/</span>
             <span v-text="ci.house_type"></span>
             <span>/</span>
@@ -41,7 +41,7 @@
         </div>
       </div>
       </div>
-      <div class="default_case" v-show="!showCase">
+      <div class="default_case" v-if="!showCase">
         <img src="../../assets/rabbit.png" alt="">
         <span>您还没收藏任何案例</span>
       </div>
@@ -71,6 +71,8 @@
               if(res.data.status_code==='10009'){
                 // console.log(res.data.content);
                 this.caseInfo=res.data.content;
+              }else if(res.data.status_code==='10008'){
+                this.showCase=false
               }
             })
             .catch(err => {
@@ -130,17 +132,22 @@
           deleteCase:function () {
             // 遍历caseInfo数组,将数组中check为true的值删除
             //要倒着删,否则容易出错
+            var del=[];
             for(let i=this.caseInfo.length-1; i>=0;i--){
               if(this.caseInfo[i].check){
-                this.caseInfo.splice(i,1);
-                var del=[];
+
                 del.push(this.caseInfo[i].collect_id)
+                this.caseInfo.splice(i,1);
               }
             }
-            axios.get(this.Global.server_url+'collect/cancelCollection/',{
+            console.log(del);
+            axios.post(this.Global.server_url+'collect/cancelCollection/',
               // params:{"user_id":this.Global.user_id}
-              params:{"user_id":window.localStorage.getItem("user_id")}
-            })
+              {"collect_id":del},
+              {
+                headers:{'token':window.localStorage.getItem('token')}
+              }
+            )
               .then(res=>{
                 if(res.data.status_code==='10040'){
                   console.log(res.data.status_text);
@@ -163,6 +170,10 @@
 </script>
 
 <style scoped>
+  h4 a{
+    color: #757575;
+    text-decoration: none;
+  }
   .collection{
     background-color: white;
     min-height: 400px;

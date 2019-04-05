@@ -22,7 +22,7 @@
               <img :src="si.strategy_src" alt="">
             </div>
             <div class="content_info">
-              <router-link :to="{path:'/StrategyDetail',query:{strategy_id:si.strategy_id}}" v-text="si.strategy_title"></router-link>
+              <h4><router-link :to="{path:'/StrategyDetail',query:{strategy_id:si.strategy_id}}" v-text="si.strategy_title"></router-link></h4>
               <p v-text="si.lead"></p>
               <div class="collection_time">
                 <span v-text="si.collect_date"></span>
@@ -61,6 +61,8 @@
               if(res.data.status_code==='10009'){
                 // console.log(res.data.content);
                 this.strategyInfo=res.data.content;
+              }else if(res.data.status_code==='10008'){
+                this.showStrategy=false
               }
             })
             .catch(err => {
@@ -91,6 +93,7 @@
                   this.checkAllNum=1
                 }
 
+                console.log(this.strategyInfo)
 
               },
               // 检测是否被选中,用在下面的every方法,用来判断所有的攻略是不是都被选中
@@ -120,17 +123,21 @@
               deleteStrategy:function () {
                 // 遍历strategyInfo数组,将数组中check为true的值删除
                 //要倒着删,否则容易出错
+                var del=[];
                 for(let i=this.strategyInfo.length-1; i>=0;i--){
                   if(this.strategyInfo[i].check){
+                    del.push(this.strategyInfo[i].collect_id)
                     this.strategyInfo.splice(i,1);
-                    var del=[];
-                    del.push(this.caseInfo[i].collect_id)
                   }
                 }
-                axios.get(this.Global.server_url+'collect/cancelCollection/',{
+                console.log(del);
+                axios.post(this.Global.server_url+'collect/cancelCollection/',
                   // params:{"user_id":this.Global.user_id}
-                  params:{"user_id":window.localStorage.getItem("user_id")}
-                })
+                  {"collect_id":del},
+                  {
+                    headers:{'token':window.localStorage.getItem('token')}
+                  }
+                )
                   .then(res=>{
                     if(res.data.status_code==='10040'){
                       console.log(res.data.status_text);
@@ -154,6 +161,10 @@
 </script>
 
 <style scoped>
+  h4 a{
+    color: #757575;
+    text-decoration: none;
+  }
   .collection{
     background-color: white;
     min-height: 400px;

@@ -35,9 +35,8 @@
                         </td>
                         <td>
                             <select class="style_select" v-model="reno_style">
-                                <option :value="rs.id" v-for="(rs,index) in reno_styles" :key="index" v-text="rs.name"></option>
+                                <option :value="rs.name" v-for="(rs,index) in reno_styles" :key="index" v-text="rs.name"></option>
                             </select>
-                            <h6>{{reno_style}}</h6>
                         </td>
                     </tr>
                     <tr>
@@ -47,11 +46,8 @@
                         </td>
                         <td>
                             <select class="reno_type" v-model="reno_type">
-                                <option :value="rt.id" v-for="(rt,index) in reno_types" :key="index" v-text="rt.name"></option>
-
+                                <option :value="rt.name" v-for="(rt,index) in reno_types" :key="index" v-text="rt.name"></option>
                             </select>
-
-                            <h6>{{reno_type}}</h6>
                         </td>
                     </tr>
                     <tr>
@@ -181,13 +177,13 @@
     }
 
     .modal-content {
-        width: 35%;
-        height: 63%;
+        width: 32%;
+        height: 68%;
 
         min-width: 260px;
         min-height: 200px;
 
-        margin: 160px auto;
+        margin: 140px auto;
         background: #fff;
 
     }
@@ -222,7 +218,7 @@
 
     .table_info tr td {
         border: none !important;
-        padding: 8px;
+        padding: 8px 8px 8px 14px;
     }
 
     .table_info tr td:nth-child(1) {
@@ -240,7 +236,7 @@
         width: 80px;
         background: orangered;
         color: white;
-
+        margin-left: 50px;
     }
 
     .table_info .submit :visited {

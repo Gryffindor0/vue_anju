@@ -22,7 +22,7 @@
               <img :src="ci.company_icon" alt="">
             </div>
             <div class="content_info">
-              <router-link :to="{path:'/companyDetail/',query:{company_id:ci.content_id}}" class="company_name" v-text="ci.name"></router-link>
+              <h4><router-link :to="{path:'/companyDetail/',query:{company_id:ci.content_id}}" class="company_name" v-text="ci.name"></router-link></h4>
               <div>
                 <span>设计案例 :</span>
                 <span class="case_num"  v-text="ci.case_num"></span>
@@ -68,6 +68,8 @@
 
                 // console.log(res.data.content);
                 this.companyInfo=res.data.content;
+              }else if(res.data.status_code==='10008'){
+                this.showCompany=false
               }
             })
             .catch(err => {
@@ -127,17 +129,21 @@
           deleteCompany:function () {
             // 遍历companyInfo数组,将数组中check为true的值删除
             //要倒着删,否则容易出错
+            var del=[];
             for(let i=this.companyInfo.length-1; i>=0;i--){
               if(this.companyInfo[i].check){
+
+
+                del.push(this.companyInfo[i].id)
                 this.companyInfo.splice(i,1);
-                var del=[];
-                del.push(this.caseInfo[i].id)
               }
             }
-            axios.get(this.Global.server_url+'collect/cancelCollection/',{
-              // params:{"user_id":this.Global.user_id}
-              params:{"user_id":window.localStorage.getItem("user_id")}
-            })
+            axios.post(this.Global.server_url+'collect/cancelCollection/',
+              {"collect_id":del},
+              {
+                headers:{'token':window.localStorage.getItem('token')}
+              }
+            )
               .then(res=>{
                 if(res.data.status_code==='10040'){
                   console.log(res.data.status_text);
@@ -160,6 +166,10 @@
 </script>
 
 <style scoped>
+  h4 a{
+    color: #757575;
+    text-decoration: none;
+  }
   .collection{
     background-color: white;
     min-height: 400px;

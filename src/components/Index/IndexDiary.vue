@@ -71,7 +71,6 @@
                   }
                 }
                 this.diary_info = response.data.content[0];
-                console.log(this.diary_info);
             }
           )
           .catch(error=>{

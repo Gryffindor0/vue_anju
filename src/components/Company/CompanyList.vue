@@ -1,7 +1,7 @@
 <template>
     <div>
       <company-screen @getScreenComNum="getScreenComNum" @getScreenCompany="getScreenCompany" @getScreenCondition="getScreenCondition"></company-screen>
-      <company :companyInfo="companyInfo" @getSortCompany="getSortCompany" @getSortComNum="getSortComNum"></company>
+      <company :companyInfo="companyInfo" :isShowImg="isShowImg" @getSortCompany="getSortCompany" @getSortComNum="getSortComNum"></company>
       <div id="barcon">
         <span class='btn btn-default page_1' @click="go_page(index)" v-for="(p,index) in comPageNum" v-text="p" :class="{'active':index===isActive}"></span>
       </div>
@@ -26,6 +26,7 @@
             companyInfo:[],
             companyCondition:{"price":"","style":"","address":"","pageNum":0,"perPageNum":5},
             isActive:-1,
+            isShowImg: false
           }
         },
         mounted:function () {
@@ -46,7 +47,12 @@
                 }
               })
                 .then(response=>{
-                  this.companyInfo=response.data.content
+                  if (response.data.status_code==="10009"){
+                    this.companyInfo=response.data.content
+                  }else if(response.data.status_code==="10008"){
+                    this.isShowImg=true
+                  }
+
                 })
                 .catch(error=>{
                   console.log(error);
@@ -71,6 +77,8 @@
                   if(res.data.status_code==='10009'){
                     // console.log(res.data.content);
                     this.companyInfo=res.data.content
+                  }else if(res.data.status_code==="10008"){
+                    this.isShowImg=true
                   }
                 })
                 .catch(err => {

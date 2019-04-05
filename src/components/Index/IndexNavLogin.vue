@@ -3,7 +3,7 @@
     <li><router-link to="/Login" class="a1 login" v-if="isLogin">登录</router-link></li>
     <li class="ss" v-if="isLogin"><a href="#">/</a></li>
     <li><router-link to="/Register" class="a1 register" v-if="isLogin">注册</router-link></li>
-    <li><router-link to="/PersonalCenter/" class="a1 nick_name" v-text="nick_name" v-if="!isLogin"></router-link></li>
+    <li><router-link to="/personalCenter/" class="a1 nick_name" v-text="nick_name" v-if="!isLogin"></router-link></li>
   </ul>
 </template>
 
@@ -28,7 +28,6 @@
             if (response.data.status_code=="10006"){
               this.isLogin=true
             } else if(response.data.status_code=="200"){
-              console.log(response.data);
               this.isLogin=false
             }else{
               console.log(response.data.status_text);

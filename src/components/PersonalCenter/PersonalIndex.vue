@@ -195,7 +195,6 @@
       }
     },
     mounted:function () {
-      console.log(window.localStorage.getItem("user_id"));
       // 获取用户数据
       axios.get(this.Global.server_url+'user/getUserInfo/',{
         // params:{"user_id":this.Global.user_id}

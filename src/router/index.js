@@ -56,11 +56,6 @@ export default new Router({
                 }
             ]
         },
-        // {
-        //     path: '/CompanyList',
-        //     name: 'CompanyList',
-        //     component: CompanyList
-        // },
         {
             path: '/StrategyDetail',
             name: 'StrategyDetail',

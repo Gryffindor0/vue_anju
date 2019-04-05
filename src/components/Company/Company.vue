@@ -49,6 +49,7 @@
         </div>
       </div>
     </div>
+    <img src="../../assets/no-case.png" style="width: 100%;" v-if="isShowImg">
   </div>
 
 </template>
@@ -57,16 +58,12 @@
   import axios from 'axios'
 
   export default {
-        props:['companyInfo'],
+        props:['companyInfo','isShowImg'],
         name: "Company",
         data:function () {
           return {
             sorts:['综合','案例','工地','信用'],
-            sorted:{},
-            // companyInfo:[
-            //   {"id":1,"company_icon":require("../assets/company_img02.jpg"),"name":"雅思阁装饰","case_num":"1920",
-            //   "work_site_num":"1999","contact_tel":"2333333333","com_src":require("../assets/company_img02.jpg")}
-            //   ]
+            sorted:{}
           }
         },
         methods:{

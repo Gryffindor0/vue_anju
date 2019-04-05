@@ -29,20 +29,27 @@
       return {
         isIndex: true,
         notIsIndex: false,
-        footer_status:true
+        footer_status:true,
+        // isExitLogin:false
       }
     },
     mounted:function () {
       if (this.$route.name === "Index") {
         this.isIndex = true;
-        this.notIsIndex = false
-      }else if(this.$route.name === "Login" || this.$route.name === "register"){
+        this.notIsIndex = false;
+      }else if(this.$route.name === "Login" || this.$route.name === "Register"){
         this.isIndex = false;
         this.notIsIndex = false;
-        this.footer_status=false
-      }else{
+        this.footer_status=false;
+      }
+      // else if (this.$route.path.indexOf("personalCenter") == 1){
+      //   this.isIndex = false;
+      //   this.notIsIndex = true;
+      //   this.isExitLogin=true;
+      // }
+      else{
         this.isIndex = false;
-        this.notIsIndex = true
+        this.notIsIndex = true;
       }
     },
     watch: {
@@ -51,14 +58,24 @@
           this.isIndex = true;
           this.notIsIndex = false;
           this.footer_status=true;
+          // this.isExitLogin=false;
         }else if(to.name === "Login" || to.name === "Register"){
           this.isIndex = false;
           this.notIsIndex = false;
           this.footer_status=false;
-        }else{
+          // this.isExitLogin=false
+        }
+        // else if (to.path.indexOf("personalCenter") !=-1){
+        //   this.isIndex = false;
+        //   this.notIsIndex = true;
+        //   this.footer_status=true;
+        //   this.isExitLogin=true;
+        // }
+        else{
           this.isIndex = false;
           this.notIsIndex = true;
           this.footer_status=true;
+          // this.isExitLogin=false;
         }
       }
     }

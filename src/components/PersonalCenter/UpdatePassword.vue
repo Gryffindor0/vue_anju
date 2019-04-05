@@ -145,7 +145,8 @@
                       console.log(res.data);
                       this.newPasswordSuccess="密码修改成功";
                       this.oldPasswordError="";
-                      this.newPasswordError=""
+                      this.newPasswordError="";
+                      this.$router.push({path:'/personalCenter/'});
                     }else if(res.data.status_code==='10005') {
                       this.oldPasswordError="密码输入错误";
                       this.newPasswordSuccess="";
